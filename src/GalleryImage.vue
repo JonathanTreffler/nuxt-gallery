@@ -16,15 +16,15 @@ export default {
 	props: {
 		src: {
 			type: String,
-			default: '',
+			default: "",
 		},
 		alt: {
 			type: String,
-			default: '',
+			default: "",
 		},
 		source: {
 			type: String,
-			default: '',
+			default: "",
 		},
 	},
 	methods: {

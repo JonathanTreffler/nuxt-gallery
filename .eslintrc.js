@@ -1,5 +1,5 @@
 module.exports = {
-  extends: [
-    "jonathantreffler",
-  ],
+	extends: [
+		"jonathantreffler",
+	],
 };

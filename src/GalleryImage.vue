@@ -29,11 +29,8 @@ export default {
 	},
 	methods: {
 		getId: function() {
-			console.log(this.$el);
 			let pictures = this.$el.parentNode.children;
 			for(let id in pictures) {
-				console.log(id);
-				console.log(pictures[id]);
 				if(pictures[id] == this.$el) {
 					return id;
 				}

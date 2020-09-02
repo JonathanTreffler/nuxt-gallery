@@ -1,0 +1,27 @@
+{
+  "name": "modern-vue-gallery",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JonathanTreffler/modern-vue-gallery.git"
+  },
+  "keywords": [
+    "vue",
+    "vuejs",
+    "vue-component",
+    "gallery",
+    "modern",
+    "slideshow",
+    "images"
+  ],
+  "author": "JonathanTreffler",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/JonathanTreffler/modern-vue-gallery/issues"
+  },
+  "homepage": "https://github.com/JonathanTreffler/modern-vue-gallery#readme"
+}

@@ -23,7 +23,7 @@ jobs:
       working-directory: demo
       
     - name: "add .nojekyll"
-      run: touch .nojekyll
+      run: ls -la && touch .nojekyll
       working-directory: demo/dist/
       
     - name: Deploy

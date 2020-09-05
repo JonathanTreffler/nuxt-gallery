@@ -22,10 +22,6 @@ jobs:
       run: npm run generate
       working-directory: demo
       
-    - name: "add .nojekyll"
-      run: ls -la && touch .nojekyll
-      working-directory: demo/dist/
-      
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@3.5.5
       with:

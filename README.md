@@ -19,7 +19,6 @@ npm install modern-vue-gallery
 ```
 
 ## Usage:
-- import Quill
 ```html
 <script>
   import Gallery from 'modern-vue-gallery/src/Gallery.vue'

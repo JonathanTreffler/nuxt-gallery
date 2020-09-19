@@ -1,6 +1,6 @@
 {
-  "name": "modern-vue-gallery",
-  "version": "1.5.2",
+  "name": "nuxt-gallery",
+  "version": "1.0.0",
   "description": "",
   "main": "src/index.js",
   "scripts": {

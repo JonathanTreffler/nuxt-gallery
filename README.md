@@ -10,3 +10,5 @@
 # Vue Gallery
 
 A gallery libary for vuejs with a modern design and automatic image optimisation
+
+### [Demo](https://jonathan-treffler.de/modern-vue-gallery/)

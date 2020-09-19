@@ -7,13 +7,13 @@
 		</picture>
 		<span class="zoomed_image_source" />
 		<div class="gallery_control_container">
-			<img class="gallery_control" alt="" src="~/assets/arrow_back.svg" @click="scroll(-1)">
+			<img class="gallery_control" alt="" src="./assets/arrow_back.svg" @click="scroll(-1)">
 		</div>
 		<div class="pictureContainer">
 			<slot />
 		</div>
 		<div class="gallery_control_container">
-			<img class="gallery_control" alt="" src="~/assets/arrow_forward.svg" @click="scroll(1)">
+			<img class="gallery_control" alt="" src="./assets/arrow_forward.svg" @click="scroll(1)">
 		</div>
 	</div>
 </template>

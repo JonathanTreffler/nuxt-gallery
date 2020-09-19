@@ -27,7 +27,7 @@ export default {
 .title {
   text-align: center;
   padding: 21px;
-  margin: 0px;
+  margin: 0;
   color: white;
 }
 </style>

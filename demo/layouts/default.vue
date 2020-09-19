@@ -8,9 +8,10 @@ html {
   background-color: #ef6c00;
 }
 
-html, body {
+html,
+body {
   max-width: 100%;
   min-height: 100%;
-  margin: 0px;
+  margin: 0;
 }
 </style>

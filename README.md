@@ -7,9 +7,22 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/JonathanTreffler/modern-vue-gallery?style=flat-square)
 [![Maintenance](https://img.shields.io/maintenance/yes/2020?style=flat-square)](https://github.com/JonathanTreffler/modern-vue-gallery/commits/)
 
-# Vue Gallery
+# Nuxt Gallery
 
-A gallery libary for vuejs with a modern design and automatic image optimisation
+A gallery libary for nuxt with a modern design and automatic image optimisation.
+
+## How it works:
+On compile time the images of the gallery get automatically resized and reencoded.
+
+It encodes the images in webp, the modern image standard for the web, and jpg, so everything works on old browsers too.
+It also creates multiple resolution of the image (in both webp and jpg).
+
+When the client loads the gallery the browser decides wich image resolution best fits. <br>
+Brosers decide this by factors like: Screen Resolution, Network Speed, Baterry Level, Data Saving Mode, Data Caps ...
+
+Because of these optimisations the images will look great on PCs, Tablets and Phones regardless of the resolution.
+
+When a image gets clicked the full resolution version gets loaded and displayed as big as possible (depends on the screen size).
 
 ### [Demo](https://jonathan-treffler.de/modern-vue-gallery/)
 

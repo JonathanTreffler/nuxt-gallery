@@ -24,6 +24,9 @@ Because of these optimisations the images will look great on PCs, Tablets and Ph
 
 When a image gets clicked the full resolution version gets loaded and displayed as big as possible (depends on the screen size).
 
+If you have to include the author of the image, because of the license you can do that with the data-source parameter. <br>
+It will show the author on the bottom of the screen when the user clicks on the image.
+
 ### [Demo](https://jonathan-treffler.de/nuxt-gallery/)
 
 ## Installation:

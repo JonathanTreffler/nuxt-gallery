@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1 class="title">
-      Modern Vue Gallery Demo
+      Nuxt Gallery Demo
     </h1>
     <gallery>
       <galleryImage src="demo_1.jpg" alt="Forest" data-source="Made by: ___" />

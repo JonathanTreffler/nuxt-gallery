@@ -26,5 +26,7 @@ export default {
 <style>
 .title {
   text-align: center;
+  padding: 21px;
+  margin: 0px;
 }
 </style>

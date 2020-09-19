@@ -47,7 +47,7 @@ export default {
 				return new Promise(function(resolve) {
 					const source = picture.getAttribute("data-source");
 					if (source) {
-						thisEl.querySelector(".zoomed_image_source").textContent = "Quelle: " + source;
+						thisEl.querySelector(".zoomed_image_source").textContent = "Source: " + source;
 					} else {
 						thisEl.querySelector(".zoomed_image_source").textContent = "";
 					}

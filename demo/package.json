@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@nuxtjs/pwa": "^3.0.0-beta.20",
-    "modern-vue-gallery": "^1.5.1",
+    "modern-vue-gallery": "^1.5.2",
     "nuxt": "^2.14.5"
   },
   "devDependencies": {

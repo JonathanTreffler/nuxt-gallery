@@ -1,0 +1,23 @@
+name: Lint Demo
+
+on: [push]
+
+jobs:
+  lint_demo:
+    name: Lint Demo
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14
+
+    - name: Install dependencies
+      run: npm ci
+      working-directory: demo/
+
+    - name: Lint
+      run: npm run lint
+      working-directory: demo/

@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import Gallery from 'modern-vue-gallery/src/Gallery.vue'
-import GalleryImage from 'modern-vue-gallery/src/GalleryImage.vue'
+import Gallery from 'nuxt-gallery/src/Gallery.vue'
+import GalleryImage from 'nuxt-gallery/src/GalleryImage.vue'
 
 export default {
   components: {

@@ -63,6 +63,6 @@ export default {
   build: {
   },
   router: {
-    base: '/modern-vue-gallery/'
+    base: '/nuxt-gallery/'
   }
 }

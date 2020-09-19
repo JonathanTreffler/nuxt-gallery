@@ -1,4 +1,4 @@
-[![npm](https://img.shields.io/npm/v/modern-gallery?style=flat-square)](https://www.npmjs.com/package/nuxt-gallery)
+[![npm](https://img.shields.io/npm/v/nuxt-gallery?style=flat-square)](https://www.npmjs.com/package/nuxt-gallery)
 [![npm bundle size](https://img.shields.io/bundlephobia/min/nuxt-gallery?style=flat-square)](https://www.npmjs.com/package/nuxt-gallery)
 [![npm](https://img.shields.io/npm/dt/nuxt-gallery?style=flat-square)](https://www.npmjs.com/package/nuxt-gallery)
 ![Lint Libary Workflow Status](https://img.shields.io/github/workflow/status/JonathanTreffler/nuxt-gallery/Lint%20Libary?label=Libary%20Lint&style=flat-square)

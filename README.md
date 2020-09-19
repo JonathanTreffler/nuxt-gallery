@@ -9,7 +9,7 @@
 
 # Nuxt Gallery
 
-A gallery libary for nuxt with a modern design and automatic image optimisation.
+A gallery library for nuxt with a modern design and automatic image optimisation.
 
 ## How it works:
 On compile time the images of the gallery get automatically resized and reencoded.

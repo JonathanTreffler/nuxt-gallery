@@ -1,11 +1,11 @@
-[![npm](https://img.shields.io/npm/v/modern-vue-gallery?style=flat-square)](https://www.npmjs.com/package/modern-vue-gallery)
-[![npm bundle size](https://img.shields.io/bundlephobia/min/modern-vue-gallery?style=flat-square)](https://www.npmjs.com/package/modern-vue-gallery)
-[![npm](https://img.shields.io/npm/dt/modern-vue-gallery?style=flat-square)](https://www.npmjs.com/package/modern-vue-gallery)
-![Lint Libary Workflow Status](https://img.shields.io/github/workflow/status/JonathanTreffler/modern-vue-gallery/Lint%20Libary?label=Libary%20Lint&style=flat-square)
-![Lint Demo Workflow Status](https://img.shields.io/github/workflow/status/JonathanTreffler/modern-vue-gallery/Lint%20Demo?label=Demo%20Lint&style=flat-square)
-![GitHub](https://img.shields.io/github/license/JonathanTreffler/modern-vue-gallery?style=flat-square)
-![GitHub last commit](https://img.shields.io/github/last-commit/JonathanTreffler/modern-vue-gallery?style=flat-square)
-[![Maintenance](https://img.shields.io/maintenance/yes/2020?style=flat-square)](https://github.com/JonathanTreffler/modern-vue-gallery/commits/)
+[![npm](https://img.shields.io/npm/v/modern-gallery?style=flat-square)](https://www.npmjs.com/package/nuxt-gallery)
+[![npm bundle size](https://img.shields.io/bundlephobia/min/nuxt-gallery?style=flat-square)](https://www.npmjs.com/package/nuxt-gallery)
+[![npm](https://img.shields.io/npm/dt/nuxt-gallery?style=flat-square)](https://www.npmjs.com/package/nuxt-gallery)
+![Lint Libary Workflow Status](https://img.shields.io/github/workflow/status/JonathanTreffler/nuxt-gallery/Lint%20Libary?label=Libary%20Lint&style=flat-square)
+![Lint Demo Workflow Status](https://img.shields.io/github/workflow/status/JonathanTreffler/nuxt-gallery/Lint%20Demo?label=Demo%20Lint&style=flat-square)
+![GitHub](https://img.shields.io/github/license/JonathanTreffler/nuxt-gallery?style=flat-square)
+![GitHub last commit](https://img.shields.io/github/last-commit/JonathanTreffler/nuxt-gallery?style=flat-square)
+[![Maintenance](https://img.shields.io/maintenance/yes/2020?style=flat-square)](https://github.com/JonathanTreffler/nuxt-gallery/commits/)
 
 # Nuxt Gallery
 
@@ -24,18 +24,18 @@ Because of these optimisations the images will look great on PCs, Tablets and Ph
 
 When a image gets clicked the full resolution version gets loaded and displayed as big as possible (depends on the screen size).
 
-### [Demo](https://jonathan-treffler.de/modern-vue-gallery/)
+### [Demo](https://jonathan-treffler.de/nuxt-gallery/)
 
 ## Installation:
 ```bash
-npm install modern-vue-gallery
+npm install nuxt-gallery
 ```
 
 ## Usage:
 ```html
 <script>
-  import Gallery from 'modern-vue-gallery/src/Gallery.vue'
-  import GalleryImage from 'modern-vue-gallery/src/GalleryImage.vue'
+  import Gallery from 'nuxt-gallery/src/Gallery.vue'
+  import GalleryImage from 'nuxt-gallery/src/GalleryImage.vue'
   
   export default {
     components: {
@@ -53,5 +53,5 @@ npm install modern-vue-gallery
 ```
 
 ## Screenshots:
-<img src="https://raw.githubusercontent.com/JonathanTreffler/modern-vue-gallery/master/img/1.png">
-<img src="https://raw.githubusercontent.com/JonathanTreffler/modern-vue-gallery/master/img/2.png">
+<img src="https://raw.githubusercontent.com/JonathanTreffler/nuxt-gallery/master/img/1.png">
+<img src="https://raw.githubusercontent.com/JonathanTreffler/nuxt-gallery/master/img/2.png">

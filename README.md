@@ -12,3 +12,7 @@
 A gallery libary for vuejs with a modern design and automatic image optimisation
 
 ### [Demo](https://jonathan-treffler.de/modern-vue-gallery/)
+
+## Screenshots:
+<img src="https://raw.githubusercontent.com/JonathanTreffler/modern-vue-gallery/master/img/1.png">
+<img src="https://raw.githubusercontent.com/JonathanTreffler/modern-vue-gallery/master/img/2.png">

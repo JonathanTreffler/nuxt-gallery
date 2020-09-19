@@ -3,11 +3,25 @@
     <h1 class="title">
       Modern Vue Gallery Demo
     </h1>
+    <gallery>
+      <galleryImage src="demo_1.jpg" alt="Forest" data-source="Made by: ___" />
+      <galleryImage src="demo_2.jpg" alt="Flowers" />
+      <galleryImage src="demo_3.jpg" alt="Modern Stairs" />
+      <galleryImage src="demo_4.jpg" alt="Golden Gate Bridge" />
+    </gallery>
   </div>
 </template>
 
 <script>
-export default {}
+import Gallery from 'modern-vue-gallery/src/Gallery.vue'
+import GalleryImage from 'modern-vue-gallery/src/GalleryImage.vue'
+
+export default {
+  components: {
+    Gallery,
+    GalleryImage
+  }
+}
 </script>
 <style>
 .title {

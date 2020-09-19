@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JonathanTreffler/modern-vue-gallery.git"
+    "url": "git+https://github.com/JonathanTreffler/nuxt-gallery.git"
   },
   "keywords": [
     "vue",
@@ -24,9 +24,9 @@
   "author": "JonathanTreffler",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/JonathanTreffler/modern-vue-gallery/issues"
+    "url": "https://github.com/JonathanTreffler/nuxt-gallery/issues"
   },
-  "homepage": "https://github.com/JonathanTreffler/modern-vue-gallery#readme",
+  "homepage": "https://github.com/JonathanTreffler/nuxt-gallery#readme",
   "devDependencies": {
     "eslint": "^7.8.1",
     "eslint-config-jonathantreffler": "^1.3.0"

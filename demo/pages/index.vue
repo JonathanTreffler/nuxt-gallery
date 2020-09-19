@@ -28,5 +28,6 @@ export default {
   text-align: center;
   padding: 21px;
   margin: 0px;
+  color: white;
 }
 </style>

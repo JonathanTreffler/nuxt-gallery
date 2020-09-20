@@ -14,6 +14,7 @@
 				class="picture"
 				v-for="(image, index) in images"
 				:key="image.src + index"
+				ref="image"
 			>
 				<source :srcSet="require('~/assets/' + image.src + '?format=webp&resize&sizes[]=200&sizes[]=300&sizes[]=600&sizes[]=700').srcSet" type="image/webp">
 				<source :srcSet="require('~/assets/' + image.src + '?format=jpg&resize&sizes[]=200&sizes[]=300&sizes[]=600&sizes[]=700').srcSet" type="image/jpg">
@@ -32,8 +33,8 @@ export default {
 	},
 	data() {
 		return {
+			focusedId: 0,
 			zoomedId: false,
-
 		};
 	},
 	mounted() {
@@ -144,11 +145,18 @@ export default {
 				.then(extendPC)
 				.then(activateClosing(this.$el));
 		});
+		let self = this;
+		setInterval(function() {
+			console.log(self.$refs);
+		}, 1000);
 	},
 	methods: {
+		getPictureElementById(id) {
+			return this.$refs.image[id];
+		},
 		scroll(direction) {
 			const pictureContainer = this.$el.querySelector(".pictureContainer");
-			const newCurrentId = this.activeId + direction;
+			const newCurrentId = this.focusedId + direction;
 
 			let newCurrentPicture = this.getPictureElementById(newCurrentId);
 
@@ -159,7 +167,7 @@ export default {
 					duration: 500,
 				});
 
-				this.activeId = newCurrentId;
+				this.focusedId = newCurrentId;
 			}
 		},
 		closeZoom() {

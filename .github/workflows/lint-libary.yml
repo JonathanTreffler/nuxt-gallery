@@ -1,9 +1,9 @@
-name: Lint Libary
+name: Lint Library
 
 on: [push]
 
 jobs:
-  lint_libary:
+  lint_library:
     name: Lint Libary
     runs-on: ubuntu-latest
     steps:

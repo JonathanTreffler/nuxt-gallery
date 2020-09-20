@@ -1,7 +1,7 @@
 [![npm](https://img.shields.io/npm/v/nuxt-gallery?style=flat-square)](https://www.npmjs.com/package/nuxt-gallery)
 [![npm bundle size](https://img.shields.io/bundlephobia/min/nuxt-gallery?style=flat-square)](https://www.npmjs.com/package/nuxt-gallery)
 [![npm](https://img.shields.io/npm/dt/nuxt-gallery?style=flat-square)](https://www.npmjs.com/package/nuxt-gallery)
-![Lint Libary Workflow Status](https://img.shields.io/github/workflow/status/JonathanTreffler/nuxt-gallery/Lint%20Library?label=Library%20Lint&style=flat-square)
+![Lint Library Workflow Status](https://img.shields.io/github/workflow/status/JonathanTreffler/nuxt-gallery/Lint%20Library?label=Library%20Lint&style=flat-square)
 ![Lint Demo Workflow Status](https://img.shields.io/github/workflow/status/JonathanTreffler/nuxt-gallery/Lint%20Demo?label=Demo%20Lint&style=flat-square)
 ![GitHub](https://img.shields.io/github/license/JonathanTreffler/nuxt-gallery?style=flat-square)
 ![GitHub last commit](https://img.shields.io/github/last-commit/JonathanTreffler/nuxt-gallery?style=flat-square)

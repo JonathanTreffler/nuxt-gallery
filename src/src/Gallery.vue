@@ -1,11 +1,11 @@
 <template>
 	<div class="gallery">
-		<div class="zoom_blur_background" @click="closeZoom" />
-		<picture @click="closeZoom" v-if="zoomedId">
-			<source :srcSet="require('~/assets/' + images[zoomedId].src + '?format=webp').srcSet" type="image/webp">
-			<img class="zoomed_image" :srcSet="require('~/assets/' + images[zoomedId].src + '?format=jpg').srcSet" type="image/jpg" :alt="images[zoomedId].alt">
+		<div :style="zoomBlurStyle" class="zoom_blur_background" @click="closeZoom" />
+		<picture @click="closeZoom">
+			<source :src="zoomedImageWebpSrc" type="image/webp">
+			<img :src="zoomedImageJpgSrc" :style="zoomedImageStyle" ref="zoomed_image" class="zoomed_image" :alt="zoomedImageAlt">
 		</picture>
-		<span class="zoomed_image_source" />
+		<span v-if="zoomedId" class="zoomed_image_source">{{ }}</span>
 		<div class="gallery_control_container">
 			<img class="gallery_control" alt="" src="./assets/arrow_back.svg" @click="scroll(-1)">
 		</div>
@@ -15,9 +15,10 @@
 				v-for="(image, index) in images"
 				:key="image.src + index"
 				ref="image"
+				@click="zoom(index)"
 			>
-				<source :srcSet="require('~/assets/' + image.src + '?format=webp&resize&sizes[]=200&sizes[]=300&sizes[]=600&sizes[]=700').srcSet" type="image/webp">
-				<source :srcSet="require('~/assets/' + image.src + '?format=jpg&resize&sizes[]=200&sizes[]=300&sizes[]=600&sizes[]=700').srcSet" type="image/jpg">
+				<source :srcSet="images.resizedWebpSrcSet" type="image/webp">
+				<source :srcSet="images.resizedJpgSrcSet" type="image/jpg">
 				<img :src="require('~/assets/' + image.src)" :alt="image.alt">
 			</picture>
 		</div>
@@ -27,7 +28,10 @@
 	</div>
 </template>
 <script>
+import zoomMixin from "./mixins/zoom.js";
+
 export default {
+	mixins: [ zoomMixin, ],
 	props: {
 		images: Array,
 	},
@@ -35,120 +39,48 @@ export default {
 		return {
 			focusedId: 0,
 			zoomedId: false,
+			zoomBlurStyle: {},
+			zoomedImageStyle: {},
 		};
 	},
 	mounted() {
-		this.$on("zoomPicture", function(id) {
-			let picture = this.getPictureElementById(id);
-
-			this.$el.classList.add("zoom");
-
-			const pos = picture.getBoundingClientRect();
-			const height = pos.height;
-			const width = pos.width;
-
-			const zoomedImage = this.$el.querySelector(".zoomed_image");
-			zoomedImage.style.display = "";
-
-
-			function setToOrgiginalPos(pos, width, height) {
-				return new Promise(function(resolve) {
-					zoomedImage.style.top = pos.top + "px";
-					zoomedImage.style.left = pos.left + "px";
-					zoomedImage.style.width = width + "px";
-					zoomedImage.style.height = height + "px";
-					zoomedImage.style.maxWidth = width + "px";
-					zoomedImage.style.maxHeight = height + "px";
-
-					resolve();
-				});
-			}
-
-			function activateBlurBackground(thisEl) {
-				return new Promise(function(resolve) {
-					const zoomBlurBackground = thisEl.querySelector(".zoom_blur_background");
-					zoomBlurBackground.style.display = "";
-					zoomBlurBackground.style.opacity = 0.8;
-
-					resolve();
-				});
-			}
-
-			function centerImagePX() {
-				return new Promise(function(resolve) {
-					const htmlBounds = document.getElementsByTagName("html")[0].getBoundingClientRect();
-					const zoomedImageBounds = zoomedImage.getBoundingClientRect();
-
-					zoomedImage.classList.add("topLeftTransition");
-					zoomedImage.style.top = (htmlBounds.height - zoomedImageBounds.height) / 2 + "px";
-					zoomedImage.style.left = (htmlBounds.width - zoomedImageBounds.width) / 2 + "px";
-
-					setTimeout(function() {
-						zoomedImage.classList.remove("topLeftTransition");
-						resolve();
-					}, 500);
-				});
-			}
-
-			function centerImagePC() {
-				return new Promise(function(resolve) {
-					zoomedImage.style.top = "50%";
-					zoomedImage.style.left = "50%";
-					zoomedImage.style.transform = "translate(-50%, -50%)";
-
-					resolve();
-				});
-			}
-
-			function extendPX() {
-				return new Promise(function(resolve) {
-					zoomedImage.style.width = "";
-					zoomedImage.style.height = "";
-
-					const htmlBounds = document.getElementsByTagName("html")[0].getBoundingClientRect();
-
-					zoomedImage.classList.add("maxWidthHeightTransition");
-					zoomedImage.style.maxWidth = htmlBounds.width + "px";
-					zoomedImage.style.maxHeight = htmlBounds.height + "px";
-
-					setTimeout(function() {
-						zoomedImage.classList.remove("maxWidthHeightTransition");
-						resolve();
-					}, 500);
-				});
-			}
-
-			function extendPC() {
-				return new Promise(function(resolve) {
-					zoomedImage.style.maxWidth = "";
-					zoomedImage.style.maxWidth = "100%";
-					zoomedImage.style.maxHeight = "";
-					zoomedImage.style.maxHeight = "100%";
-
-					resolve();
-				});
-			}
-
-			function activateClosing(thisEl) {
-				const zoomBlurBackground = thisEl.querySelector(".zoom_blur_background");
-				return new Promise(function(resolve) {
-					zoomBlurBackground.classList.add("closeable");
-					resolve();
-				});
-			}
-
-			setToOrgiginalPos(pos, width, height)
-				.then(activateBlurBackground(this.$el))
-				.then(centerImagePX)
-				.then(centerImagePC)
-				.then(extendPX)
-				.then(extendPC)
-				.then(activateClosing(this.$el));
-		});
 		let self = this;
 		setInterval(function() {
 			console.log(self.$refs);
 		}, 1000);
+
+        for(let imageId in this.images) {
+			let image = this.images[imageId];
+
+			image.JpgSrc = require("~/assets/" + image.src + "?format=jpg");
+			image.WebpSrc = require("~/assets/" + image.src + "?format=webp");
+			image.resizedJpgSrcSet = require("~/assets/" + image.src + "?format=jpg&resize&sizes[]=200&sizes[]=300&sizes[]=600&sizes[]=700").srcSet;
+			image.resizedWebpSrcSet = require("~/assets/" + image.src + "?format=webp&resize&sizes[]=200&sizes[]=300&sizes[]=600&sizes[]=700").srcSet;
+
+        }
+	},
+	computed: {
+		zoomedImageWebpSrc: function() {
+			if(this.zoomedId) {
+				return this.images[this.zoomedId].WebpSrc;
+			} else {
+				return "";
+			}
+		},
+		zoomedImageJpgSrc: function() {
+			if(this.zoomedId) {
+				return this.images[this.zoomedId].JpgSrc;
+			} else {
+				return "";
+			}
+		},
+		zoomedImageAlt: function() {
+			if(this.zoomedId) {
+				return this.images[this.zoomedId].alt;
+			} else {
+				return "";
+			}
+		},
 	},
 	methods: {
 		getPictureElementById(id) {
@@ -168,28 +100,6 @@ export default {
 				});
 
 				this.focusedId = newCurrentId;
-			}
-		},
-		closeZoom() {
-			const zoomBlurBackground = this.$el.querySelector(".zoom_blur_background");
-
-			if (zoomBlurBackground.classList.contains("closeable")) {
-				const zoomedImage = this.$el.querySelector(".zoomed_image");
-
-				const self = this;
-				zoomBlurBackground.style.opacity = 0;
-
-				setTimeout(function() {
-					self.$el.classList.remove("zoom");
-					zoomBlurBackground.style.display = "none";
-				}, 400);
-
-				zoomedImage.style.display = "none";
-				zoomedImage.removeAttribute("style");
-				this.currentWebpSrc = "";
-				this.currentJpgSrc = "";
-
-				zoomBlurBackground.classList.remove("closeable");
 			}
 		},
 		getOffset(el) {

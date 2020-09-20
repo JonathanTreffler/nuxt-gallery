@@ -1,16 +1,24 @@
 <template>
 	<div class="gallery">
 		<div class="zoom_blur_background" @click="closeZoom" />
-		<picture @click="closeZoom">
-			<source :srcset="currentWebpSrc" type="image/webp">
-			<img class="zoomed_image" :src="currentJpgSrc" type="image/jpg" alt="">
+		<picture @click="closeZoom" v-if="zoomedId">
+			<source :srcSet="require('~/assets/' + images[zoomedId].src + '?format=webp').srcSet" type="image/webp">
+			<img class="zoomed_image" :srcSet="require('~/assets/' + images[zoomedId].src + '?format=jpg').srcSet" type="image/jpg" :alt="images[zoomedId].alt">
 		</picture>
 		<span class="zoomed_image_source" />
 		<div class="gallery_control_container">
 			<img class="gallery_control" alt="" src="./assets/arrow_back.svg" @click="scroll(-1)">
 		</div>
 		<div class="pictureContainer">
-			<slot />
+			<picture
+				class="picture"
+				v-for="(image, index) in images"
+				:key="image.src + index"
+			>
+				<source :srcSet="require('~/assets/' + image.src + '?format=webp&resize&sizes[]=200&sizes[]=300&sizes[]=600&sizes[]=700').srcSet" type="image/webp">
+				<source :srcSet="require('~/assets/' + image.src + '?format=jpg&resize&sizes[]=200&sizes[]=300&sizes[]=600&sizes[]=700').srcSet" type="image/jpg">
+				<img :src="require('~/assets/' + image.src)" :alt="image.alt">
+			</picture>
 		</div>
 		<div class="gallery_control_container">
 			<img class="gallery_control" alt="" src="./assets/arrow_forward.svg" @click="scroll(1)">
@@ -19,12 +27,13 @@
 </template>
 <script>
 export default {
-	props: [],
+	props: {
+		images: Array,
+	},
 	data() {
 		return {
-			currentJpgSrc: "",
-			currentWebpSrc: "",
-			activeId: 0,
+			zoomedId: false,
+
 		};
 	},
 	mounted() {
@@ -40,21 +49,6 @@ export default {
 			const zoomedImage = this.$el.querySelector(".zoomed_image");
 			zoomedImage.style.display = "";
 
-			this.currentWebpSrc = picture.getAttribute("data-webp-src");
-			this.currentJpgSrc = picture.getAttribute("data-jpg-src");
-
-			function setSource(thisEl, picture) {
-				return new Promise(function(resolve) {
-					const source = picture.getAttribute("data-source");
-					if (source) {
-						thisEl.querySelector(".zoomed_image_source").textContent = source;
-					} else {
-						thisEl.querySelector(".zoomed_image_source").textContent = "";
-					}
-
-					resolve();
-				});
-			}
 
 			function setToOrgiginalPos(pos, width, height) {
 				return new Promise(function(resolve) {
@@ -142,8 +136,7 @@ export default {
 				});
 			}
 
-			setSource(this.$el, picture)
-				.then(setToOrgiginalPos(pos, width, height))
+			setToOrgiginalPos(pos, width, height)
 				.then(activateBlurBackground(this.$el))
 				.then(centerImagePX)
 				.then(centerImagePC)
@@ -153,12 +146,6 @@ export default {
 		});
 	},
 	methods: {
-		getPictureElementById(id) {
-			const pictureContainer = this.$el.querySelector(".pictureContainer");
-			const pictures = pictureContainer.children;
-
-			return pictures[id];
-		},
 		scroll(direction) {
 			const pictureContainer = this.$el.querySelector(".pictureContainer");
 			const newCurrentId = this.activeId + direction;
@@ -319,5 +306,18 @@ export default {
 		.gallery_control_container {
 			display: none;
 		}
+	}
+    .picture, .picture img {
+		height: 400px;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+	}
+	#zoomed_image {
+		position: fixed;
+		z-index: 2001;
+	}
+	.picture:not(:last-child) {
+		margin-right: 7px;
 	}
 </style>

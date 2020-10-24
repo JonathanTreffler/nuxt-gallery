@@ -2,13 +2,13 @@
 	<picture
 		class="picture"
 		:data-source="source"
-		:data-jpg-src="require('~/assets/pictures/' + src)"
-		:data-webp-src="require('~/assets/pictures/' + src + '?webp')"
+		:data-jpg-src="require('~/assets/' + src)"
+		:data-webp-src="require('~/assets/' + src + '?webp')"
 		@click="$parent.$emit('zoomPicture', getId())"
 	>
-		<source :srcSet="require('~/assets/pictures/' + src + '?format=webp&resize&sizes[]=200&sizes[]=300&sizes[]=600&sizes[]=700').srcSet" type="image/webp">
-		<source :srcSet="require('~/assets/pictures/' + src + '?format=jpg&resize&sizes[]=200&sizes[]=300&sizes[]=600&sizes[]=700').srcSet" type="image/jpg">
-		<img :src="require('~/assets/pictures/' + src)" :alt="alt">
+		<source :srcSet="require('~/assets/' + src + '?format=webp&resize&sizes[]=200&sizes[]=300&sizes[]=600&sizes[]=700').srcSet" type="image/webp">
+		<source :srcSet="require('~/assets/' + src + '?format=jpg&resize&sizes[]=200&sizes[]=300&sizes[]=600&sizes[]=700').srcSet" type="image/jpg">
+		<img :src="require('~/assets/' + src)" :alt="alt">
 	</picture>
 </template>
 <script>

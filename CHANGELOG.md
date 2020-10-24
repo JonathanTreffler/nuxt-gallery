@@ -1,3 +1,6 @@
+## 2.0.0
+- changed the directory images should be stored in from "assets/pictures/" to "assets/" (**breaking change**)
+
 ## 1.1.0
 - fixed typo in the README
 - removed the "Source: " prefix for the data-source attribute

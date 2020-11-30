@@ -13,7 +13,7 @@
     "lint": "npm run lint:js && npm run lint:style"
   },
   "dependencies": {
-    "@nuxtjs/pwa": "^3.3.0",
+    "@nuxtjs/pwa": "^3.3.2",
     "nuxt": "^2.14.7",
     "nuxt-gallery": "^2.0.0"
   },

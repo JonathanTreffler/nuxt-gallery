@@ -34,7 +34,12 @@ import zoomMixin from "./mixins/zoom.js";
 export default {
 	mixins: [ zoomMixin, ],
 	props: {
-		imagesConfig: Array,
+		imagesConfig: {
+            type: Array,
+        },
+        zoomAnimation: {
+            default: "default",
+        },
 	},
 	data() {
 		return {
@@ -182,9 +187,9 @@ export default {
 	}
 	.gallery_control {
 		width: 100%;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
 		object-fit: contain;
 	}
 	.pictureContainer {

@@ -32,8 +32,16 @@ It will show the author on the bottom of the screen when the user clicks on the 
 ### [Demo](https://jonathan-treffler.de/nuxt-gallery/)
 
 ## Installation:
+Run:
 ```bash
 npm install nuxt-gallery
+```
+
+And integrate this into your nuxt.config.js:
+```
+buildModules: [
+  '@aceforth/nuxt-optimized-images'
+],
 ```
 
 ## Usage:

@@ -4,27 +4,35 @@ export default {
 			let self = this;
 			this.zoomedId = id;
 
-			let picture = this.getPictureElementById(id);
+            this.$nextTick(function () {
+                let picture = this.getPictureElementById(id);
 
-			this.$el.classList.add("zoom");
+                this.$el.classList.add("zoom");
 
-			const pos = picture.getBoundingClientRect();
-			const height = pos.height;
-			const width = pos.width;
+                const pos = picture.getBoundingClientRect();
+                const height = pos.height;
+                const width = pos.width;
 
-			const zoomedImage = self.$refs.zoomed_image;
-			self.zoomedImageStyle.display = "";
-
+                self.zoomedImage.style.display = "";
+                
+                setToOrgiginalPos(pos, width, height)
+                    .then(activateBlurBackground(this.$el))
+                    .then(centerImagePX)
+                    .then(centerImagePC)
+                    .then(extendPX)
+                    .then(extendPC)
+                    .then(activateClosing(this.$el));
+            });
 
 			function setToOrgiginalPos(pos, width, height) {
 				console.log("setToOrgiginalPos");
 				return new Promise(function(resolve) {
-					self.zoomedImageStyle.top = pos.top + "px";
-					self.zoomedImageStyle.left = pos.left + "px";
-					self.zoomedImageStyle.width = width + "px";
-					self.zoomedImageStyle.height = height + "px";
-					self.zoomedImageStyle.maxWidth = width + "px";
-					self.zoomedImageStyle.maxHeight = height + "px";
+					self.zoomedImage.style.top = pos.top + "px";
+					self.zoomedImage.style.left = pos.left + "px";
+					self.zoomedImage.style.width = width + "px";
+					self.zoomedImage.style.height = height + "px";
+					self.zoomedImage.style.maxWidth = width + "px";
+					self.zoomedImage.style.maxHeight = height + "px";
 
 					resolve();
 				});
@@ -33,8 +41,8 @@ export default {
 			function activateBlurBackground() {
 				console.log("activateBlurBackground");
 				return new Promise(function(resolve) {
-					self.zoomBlurStyle.display = "";
-					self.zoomBlurStyle.opacity = 0.8;
+					self.zoomBlurBackground.style.display = "";
+					self.zoomBlurBackground.style.opacity = 0.8;
 
 					resolve();
 				});
@@ -44,14 +52,14 @@ export default {
 				console.log("centerImagePX");
 				return new Promise(function(resolve) {
 					const htmlBounds = document.getElementsByTagName("html")[0].getBoundingClientRect();
-					const zoomedImageBounds = self.$refs.zoomed_image.getBoundingClientRect();
-					console.log(zoomedImage);
-					zoomedImage.classList.add("topLeftTransition");
-					self.zoomedImageStyle.top = (htmlBounds.height - zoomedImageBounds.height) / 2 + "px";
-					self.zoomedImageStyle.left = (htmlBounds.width - zoomedImageBounds.width) / 2 + "px";
+                    const zoomedImageBounds = self.$refs.zoomed_image.getBoundingClientRect();
+					console.log(self.zoomedImage);
+					self.zoomedImage.classList.add("topLeftTransition");
+                    self.zoomedImage.style.top = (htmlBounds.height - zoomedImageBounds.height) / 2 + "px";
+					self.zoomedImage.style.left = (htmlBounds.width - zoomedImageBounds.width) / 2 + "px";
 
 					setTimeout(function() {
-						zoomedImage.classList.remove("topLeftTransition");
+						self.zoomedImage.classList.remove("topLeftTransition");
 						resolve();
 					}, 500);
 				});
@@ -60,9 +68,9 @@ export default {
 			function centerImagePC() {
 				console.log("centerImagePC");
 				return new Promise(function(resolve) {
-					self.zoomedImageStyle.top = "50%";
-					self.zoomedImageStyle.left = "50%";
-					self.zoomedImageStyle.transform = "translate(-50%, -50%)";
+					self.zoomedImage.style.top = "50%";
+					self.zoomedImage.style.left = "50%";
+					self.zoomedImage.style.transform = "translate(-50%, -50%)";
 
 					resolve();
 				});
@@ -71,17 +79,17 @@ export default {
 			function extendPX() {
 				console.log("extendPX");
 				return new Promise(function(resolve) {
-					self.zoomedImageStyle.width = "";
-					self.zoomedImageStyle.height = "";
+					self.zoomedImage.style.width = "";
+					self.zoomedImage.style.height = "";
 
 					const htmlBounds = document.getElementsByTagName("html")[0].getBoundingClientRect();
 
-					zoomedImage.classList.add("maxWidthHeightTransition");
-					self.zoomedImageStyle.maxWidth = htmlBounds.width + "px";
-					self.zoomedImageStyle.maxHeight = htmlBounds.height + "px";
+					self.zoomedImage.classList.add("maxWidthHeightTransition");
+					self.zoomedImage.style.maxWidth = htmlBounds.width + "px";
+					self.zoomedImage.style.maxHeight = htmlBounds.height + "px";
 
 					setTimeout(function() {
-						zoomedImage.classList.remove("maxWidthHeightTransition");
+						self.zoomedImage.classList.remove("maxWidthHeightTransition");
 						resolve();
 					}, 500);
 				});
@@ -90,10 +98,10 @@ export default {
 			function extendPC() {
 				console.log("extendPC");
 				return new Promise(function(resolve) {
-					self.zoomedImageStyle.maxWidth = "";
-					self.zoomedImageStyle.maxWidth = "100%";
-					self.zoomedImageStyle.maxHeight = "";
-					self.zoomedImageStyle.maxHeight = "100%";
+					self.zoomedImage.style.maxWidth = "";
+					self.zoomedImage.style.maxWidth = "100%";
+					self.zoomedImage.style.maxHeight = "";
+					self.zoomedImage.style.maxHeight = "100%";
 
 					resolve();
 				});
@@ -107,36 +115,29 @@ export default {
 					resolve();
 				});
 			}
-
-			setToOrgiginalPos(pos, width, height)
-				.then(activateBlurBackground(this.$el))
-				.then(centerImagePX)
-				.then(centerImagePC)
-				.then(extendPX)
-				.then(extendPC)
-				.then(activateClosing(this.$el));
 		},
 		closeZoom() {
-			const zoomBlurBackground = this.$el.querySelector(".zoom_blur_background");
-
+            console.log("close");
+            const zoomBlurBackground = this.$el.querySelector(".zoom_blur_background");
+            
 			if (zoomBlurBackground.classList.contains("closeable")) {
-				const zoomedImage = this.$el.querySelector(".zoomed_image");
-
 				const self = this;
 				zoomBlurBackground.style.opacity = 0;
 
 				setTimeout(function() {
 					self.$el.classList.remove("zoom");
 					zoomBlurBackground.style.display = "none";
-				}, 400);
+                }, 400);
+                
+                console.log(self.zoomedImage.style);
 
-				self.zoomedImageStyle.display = "none";
-				zoomedImage.removeAttribute("style");
-				this.currentWebpSrc = "";
-				this.currentJpgSrc = "";
+                self.zoomedImage.removeAttribute("style");
+				self.zoomedImage.style.display = "none";
 
-				zoomBlurBackground.classList.remove("closeable");
-			}
+                zoomBlurBackground.classList.remove("closeable");
+                
+                this.zoomedId = false;
+            }
 		},
 	},
 };

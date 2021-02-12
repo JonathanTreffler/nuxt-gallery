@@ -1,9 +1,10 @@
 <template>
 	<div class="gallery">
-		<div :style="zoomBlurStyle" class="zoom_blur_background" @click="closeZoom" />
+		<div class="zoom_blur_background" ref="zoom_blur_background" @click="closeZoom" />
 		<picture @click="closeZoom">
-			<source :src="zoomedImageWebpSrc" type="image/webp">
-			<img :src="zoomedImageJpgSrc" :style="zoomedImageStyle" ref="zoomed_image" class="zoomed_image" :alt="zoomedImageAlt">
+			<source :srcSet="zoomedImageWebpSrcSet" type="image/webp">
+            <source :srcSet="zoomedImageJpgSrcSet" type="image/jpg">
+			<img :src="zoomedImageOriginalSrc" ref="zoomed_image" class="zoomed_image" :alt="zoomedImageAlt">
 		</picture>
 		<span v-if="zoomedId" class="zoomed_image_source">{{ }}</span>
 		<div class="gallery_control_container">
@@ -19,7 +20,7 @@
 			>
 				<source :srcSet="image.resizedWebpSrcSet" type="image/webp">
 				<source :srcSet="image.resizedJpgSrcSet" type="image/jpg">
-				<img :src="require('~/assets/' + image.src)" :alt="image.alt">
+				<img :src="image.originalSrc" :alt="image.alt">
 			</picture>
 		</div>
 		<div class="gallery_control_container">
@@ -33,25 +34,28 @@ import zoomMixin from "./mixins/zoom.js";
 export default {
 	mixins: [ zoomMixin, ],
 	props: {
-		images: Array,
+		imagesConfig: Array,
 	},
 	data() {
 		return {
 			focusedId: 0,
 			zoomedId: false,
-			zoomBlurStyle: {},
-			zoomedImageStyle: {},
+            images: {}
 		};
 	},
 	mounted() {
-		let self = this;
+        let self = this;
+        
+        self.images = self.imagesConfig;
+
 		setInterval(function() {
-			console.log(self.$refs);
-		}, 1000);
+            console.log(self.$refs, self.zoomed,self.zoomedId, self.images, self.zoomedImageWebpSrc);
+        }, 1000);
 
-        for(let imageId in this.images) {
-			let image = this.images[imageId];
+        for(let imageId in self.images) {
+			let image = self.images[imageId];
 
+            image.originalSrc = require('~/assets/' + image.src);
 			image.JpgSrc = require("~/assets/" + image.src + "?format=jpg");
 			image.WebpSrc = require("~/assets/" + image.src + "?format=webp");
 			image.resizedJpgSrcSet = require("~/assets/" + image.src + "?format=jpg&resize&sizes[]=200&sizes[]=300&sizes[]=600&sizes[]=700").srcSet;
@@ -60,27 +64,44 @@ export default {
         }
 	},
 	computed: {
-		zoomedImageWebpSrc: function() {
-			if(this.zoomedId) {
-				return this.images[this.zoomedId].WebpSrc;
+        zoomed: function() {
+            return this.zoomedId != false || this.zoomedId === 0;
+        },
+        zoomedImageOriginalSrc: function() {
+			if(this.zoomed) {
+				return this.images[this.zoomedId].originalSrc;
 			} else {
-				return "";
+				return false;
+			}
+        },
+		zoomedImageWebpSrcSet: function() {
+            console.log(this.zoomed);
+			if(this.zoomed) {
+				return this.images[this.zoomedId].resizedWebpSrcSet;
+			} else {
+				return false;
 			}
 		},
-		zoomedImageJpgSrc: function() {
-			if(this.zoomedId) {
-				return this.images[this.zoomedId].JpgSrc;
+		zoomedImageJpgSrcSet: function() {
+			if(this.zoomed) {
+				return this.images[this.zoomedId].resizedJpgSrcSet;
 			} else {
-				return "";
+				return false;
 			}
-		},
+        },
 		zoomedImageAlt: function() {
-			if(this.zoomedId) {
+			if(this.zoomed) {
 				return this.images[this.zoomedId].alt;
 			} else {
 				return "";
 			}
-		},
+        },
+        zoomedImage: function() {
+            return this.$refs.zoomed_image;
+        },
+        zoomBlurBackground: function() {
+            return this.$refs.zoom_blur_background;
+        },
 	},
 	methods: {
 		getPictureElementById(id) {

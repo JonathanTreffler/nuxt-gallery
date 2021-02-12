@@ -3,12 +3,12 @@
     <h1 class="title">
       Nuxt Gallery Demo
     </h1>
-    <gallery :images="images" />
+    <gallery :images-config="images" />
   </div>
 </template>
 
 <script>
-import Gallery from 'nuxt-gallery/src/Gallery.vue'
+import Gallery from '~/../src/src/Gallery.vue'
 
 export default {
   components: {

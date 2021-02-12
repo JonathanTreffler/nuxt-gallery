@@ -2,8 +2,8 @@
 
 cd src/
 npm ci
-npm link
+#npm link
 cd ../demo
 npm ci
-npm link nuxt-gallery
+#npm link nuxt-gallery
 npm run dev

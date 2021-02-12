@@ -1,27 +1,30 @@
 <template>
-  <div class="container">
-    <h1 class="title">
-      Nuxt Gallery Demo
-    </h1>
-    <gallery>
-      <galleryImage src="demo_1.jpg" alt="Forest" data-source="Made by: ___" />
-      <galleryImage src="demo_2.jpg" alt="Flowers" />
-      <galleryImage src="demo_3.jpg" alt="Modern Stairs" />
-      <galleryImage src="demo_4.jpg" alt="Golden Gate Bridge" />
-    </gallery>
-  </div>
+	<div class="container">
+		<h1 class="title">
+			Nuxt Gallery Demo
+		</h1>
+		<gallery :images-config="images" />
+	</div>
 </template>
 
 <script>
-import Gallery from 'nuxt-gallery/src/Gallery.vue'
-import GalleryImage from 'nuxt-gallery/src/GalleryImage.vue'
+import Gallery from "~/../src/src/Gallery.vue";
 
 export default {
-  components: {
-    Gallery,
-    GalleryImage
-  }
-}
+	components: {
+		Gallery,
+	},
+	data() {
+		return {
+			images: [
+				{ src: "demo_1.jpg", alt: "Forest", bottomText: "Made by: ___", },
+				{ src: "demo_2.jpg", alt: "Flowers", },
+				{ src: "demo_3.jpg", alt: "Modern Stairs", },
+				{ src: "demo_4.jpg", alt: "Golden Gate Bridge", },
+			],
+		};
+	},
+};
 </script>
 <style>
 .title {

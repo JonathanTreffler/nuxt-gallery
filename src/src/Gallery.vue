@@ -1,16 +1,27 @@
 <template>
 	<div class="gallery">
-		<div class="zoom_blur_background" @click="closeZoom" />
+		<div class="zoom_blur_background" ref="zoom_blur_background" @click="closeZoom" />
 		<picture @click="closeZoom">
-			<source :srcset="currentWebpSrc" type="image/webp">
-			<img class="zoomed_image" :src="currentJpgSrc" type="image/jpg" alt="">
+			<source :srcSet="zoomedImageWebpSrcSet" type="image/webp">
+			<source :srcSet="zoomedImageJpgSrcSet" type="image/jpg">
+			<img :src="zoomedImageOriginalSrc" ref="zoomed_image" class="zoomed_image" :alt="zoomedImageAlt">
 		</picture>
-		<span class="zoomed_image_source" />
+		<span v-if="zoomedId" class="zoomed_image_source">{{ }}</span>
 		<div class="gallery_control_container">
 			<img class="gallery_control" alt="" src="./assets/arrow_back.svg" @click="scroll(-1)">
 		</div>
 		<div class="pictureContainer">
-			<slot />
+			<picture
+				class="picture"
+				v-for="(image, index) in images"
+				:key="image.src + index"
+				ref="image"
+				@click="zoom(index)"
+			>
+				<source :srcSet="image.resizedWebpSrcSet" type="image/webp">
+				<source :srcSet="image.resizedJpgSrcSet" type="image/jpg">
+				<img :src="image.originalSrc" :alt="image.alt">
+			</picture>
 		</div>
 		<div class="gallery_control_container">
 			<img class="gallery_control" alt="" src="./assets/arrow_forward.svg" @click="scroll(1)">
@@ -18,150 +29,92 @@
 	</div>
 </template>
 <script>
+import zoomMixin from "./mixins/zoom.js";
+
 export default {
-	props: [],
+	mixins: [ zoomMixin, ],
+	props: {
+		imagesConfig: {
+			type: Array,
+		},
+		zoomAnimation: {
+			default: "default",
+		},
+	},
 	data() {
 		return {
-			currentJpgSrc: "",
-			currentWebpSrc: "",
-			activeId: 0,
+			focusedId: 0,
+			zoomedId: false,
+			images: {},
 		};
 	},
 	mounted() {
-		this.$on("zoomPicture", function(id) {
-			let picture = this.getPictureElementById(id);
+		let self = this;
+        
+		self.images = self.imagesConfig;
 
-			this.$el.classList.add("zoom");
+		setInterval(function() {
+			console.log(self.$refs, self.zoomed, self.zoomedId, self.images, self.zoomedImageWebpSrc);
+		}, 1000);
 
-			const pos = picture.getBoundingClientRect();
-			const height = pos.height;
-			const width = pos.width;
+		for(let imageId in self.images) {
+			let image = self.images[imageId];
 
-			const zoomedImage = this.$el.querySelector(".zoomed_image");
-			zoomedImage.style.display = "";
+			image.originalSrc = require("~/assets/" + image.src);
+			image.JpgSrc = require("~/assets/" + image.src + "?format=jpg");
+			image.WebpSrc = require("~/assets/" + image.src + "?format=webp");
+			image.resizedJpgSrcSet = require("~/assets/" + image.src + "?format=jpg&resize&sizes[]=200&sizes[]=300&sizes[]=600&sizes[]=700").srcSet;
+			image.resizedWebpSrcSet = require("~/assets/" + image.src + "?format=webp&resize&sizes[]=200&sizes[]=300&sizes[]=600&sizes[]=700").srcSet;
 
-			this.currentWebpSrc = picture.getAttribute("data-webp-src");
-			this.currentJpgSrc = picture.getAttribute("data-jpg-src");
-
-			function setSource(thisEl, picture) {
-				return new Promise(function(resolve) {
-					const source = picture.getAttribute("data-source");
-					if (source) {
-						thisEl.querySelector(".zoomed_image_source").textContent = source;
-					} else {
-						thisEl.querySelector(".zoomed_image_source").textContent = "";
-					}
-
-					resolve();
-				});
+		}
+	},
+	computed: {
+		zoomed: function() {
+			return this.zoomedId != false || this.zoomedId === 0;
+		},
+		zoomedImageOriginalSrc: function() {
+			if(this.zoomed) {
+				return this.images[this.zoomedId].originalSrc;
+			} else {
+				return false;
 			}
-
-			function setToOrgiginalPos(pos, width, height) {
-				return new Promise(function(resolve) {
-					zoomedImage.style.top = pos.top + "px";
-					zoomedImage.style.left = pos.left + "px";
-					zoomedImage.style.width = width + "px";
-					zoomedImage.style.height = height + "px";
-					zoomedImage.style.maxWidth = width + "px";
-					zoomedImage.style.maxHeight = height + "px";
-
-					resolve();
-				});
+		},
+		zoomedImageWebpSrcSet: function() {
+			console.log(this.zoomed);
+			if(this.zoomed) {
+				return this.images[this.zoomedId].resizedWebpSrcSet;
+			} else {
+				return false;
 			}
-
-			function activateBlurBackground(thisEl) {
-				return new Promise(function(resolve) {
-					const zoomBlurBackground = thisEl.querySelector(".zoom_blur_background");
-					zoomBlurBackground.style.display = "";
-					zoomBlurBackground.style.opacity = 0.8;
-
-					resolve();
-				});
+		},
+		zoomedImageJpgSrcSet: function() {
+			if(this.zoomed) {
+				return this.images[this.zoomedId].resizedJpgSrcSet;
+			} else {
+				return false;
 			}
-
-			function centerImagePX() {
-				return new Promise(function(resolve) {
-					const htmlBounds = document.getElementsByTagName("html")[0].getBoundingClientRect();
-					const zoomedImageBounds = zoomedImage.getBoundingClientRect();
-
-					zoomedImage.classList.add("topLeftTransition");
-					zoomedImage.style.top = (htmlBounds.height - zoomedImageBounds.height) / 2 + "px";
-					zoomedImage.style.left = (htmlBounds.width - zoomedImageBounds.width) / 2 + "px";
-
-					setTimeout(function() {
-						zoomedImage.classList.remove("topLeftTransition");
-						resolve();
-					}, 500);
-				});
+		},
+		zoomedImageAlt: function() {
+			if(this.zoomed) {
+				return this.images[this.zoomedId].alt;
+			} else {
+				return "";
 			}
-
-			function centerImagePC() {
-				return new Promise(function(resolve) {
-					zoomedImage.style.top = "50%";
-					zoomedImage.style.left = "50%";
-					zoomedImage.style.transform = "translate(-50%, -50%)";
-
-					resolve();
-				});
-			}
-
-			function extendPX() {
-				return new Promise(function(resolve) {
-					zoomedImage.style.width = "";
-					zoomedImage.style.height = "";
-
-					const htmlBounds = document.getElementsByTagName("html")[0].getBoundingClientRect();
-
-					zoomedImage.classList.add("maxWidthHeightTransition");
-					zoomedImage.style.maxWidth = htmlBounds.width + "px";
-					zoomedImage.style.maxHeight = htmlBounds.height + "px";
-
-					setTimeout(function() {
-						zoomedImage.classList.remove("maxWidthHeightTransition");
-						resolve();
-					}, 500);
-				});
-			}
-
-			function extendPC() {
-				return new Promise(function(resolve) {
-					zoomedImage.style.maxWidth = "";
-					zoomedImage.style.maxWidth = "100%";
-					zoomedImage.style.maxHeight = "";
-					zoomedImage.style.maxHeight = "100%";
-
-					resolve();
-				});
-			}
-
-			function activateClosing(thisEl) {
-				const zoomBlurBackground = thisEl.querySelector(".zoom_blur_background");
-				return new Promise(function(resolve) {
-					zoomBlurBackground.classList.add("closeable");
-					resolve();
-				});
-			}
-
-			setSource(this.$el, picture)
-				.then(setToOrgiginalPos(pos, width, height))
-				.then(activateBlurBackground(this.$el))
-				.then(centerImagePX)
-				.then(centerImagePC)
-				.then(extendPX)
-				.then(extendPC)
-				.then(activateClosing(this.$el));
-		});
+		},
+		zoomedImage: function() {
+			return this.$refs.zoomed_image;
+		},
+		zoomBlurBackground: function() {
+			return this.$refs.zoom_blur_background;
+		},
 	},
 	methods: {
 		getPictureElementById(id) {
-			const pictureContainer = this.$el.querySelector(".pictureContainer");
-			const pictures = pictureContainer.children;
-
-			return pictures[id];
+			return this.$refs.image[id];
 		},
 		scroll(direction) {
 			const pictureContainer = this.$el.querySelector(".pictureContainer");
-			const newCurrentId = this.activeId + direction;
+			const newCurrentId = this.focusedId + direction;
 
 			let newCurrentPicture = this.getPictureElementById(newCurrentId);
 
@@ -172,29 +125,7 @@ export default {
 					duration: 500,
 				});
 
-				this.activeId = newCurrentId;
-			}
-		},
-		closeZoom() {
-			const zoomBlurBackground = this.$el.querySelector(".zoom_blur_background");
-
-			if (zoomBlurBackground.classList.contains("closeable")) {
-				const zoomedImage = this.$el.querySelector(".zoomed_image");
-
-				const self = this;
-				zoomBlurBackground.style.opacity = 0;
-
-				setTimeout(function() {
-					self.$el.classList.remove("zoom");
-					zoomBlurBackground.style.display = "none";
-				}, 400);
-
-				zoomedImage.style.display = "none";
-				zoomedImage.removeAttribute("style");
-				this.currentWebpSrc = "";
-				this.currentJpgSrc = "";
-
-				zoomBlurBackground.classList.remove("closeable");
+				this.focusedId = newCurrentId;
 			}
 		},
 		getOffset(el) {
@@ -256,9 +187,9 @@ export default {
 	}
 	.gallery_control {
 		width: 100%;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
 		object-fit: contain;
 	}
 	.pictureContainer {
@@ -319,5 +250,18 @@ export default {
 		.gallery_control_container {
 			display: none;
 		}
+	}
+    .picture, .picture img {
+		height: 400px;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+	}
+	#zoomed_image {
+		position: fixed;
+		z-index: 2001;
+	}
+	.picture:not(:last-child) {
+		margin-right: 7px;
 	}
 </style>

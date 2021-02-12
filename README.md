@@ -7,7 +7,7 @@
 ![GitHub Demo Deploy Workflow Status](https://img.shields.io/github/workflow/status/JonathanTreffler/nuxt-gallery/Deploy%20Demo%20to%20GitHub%20Pages?label=Demo%20Deploy&style=flat-square)
 ![GitHub](https://img.shields.io/github/license/JonathanTreffler/nuxt-gallery?style=flat-square)
 ![GitHub last commit](https://img.shields.io/github/last-commit/JonathanTreffler/nuxt-gallery?style=flat-square)
-[![Maintenance](https://img.shields.io/maintenance/yes/2020?style=flat-square)](https://github.com/JonathanTreffler/nuxt-gallery/commits/)
+[![Maintenance](https://img.shields.io/maintenance/yes/2021?style=flat-square)](https://github.com/JonathanTreffler/nuxt-gallery/commits/)
 
 # Nuxt Gallery
 

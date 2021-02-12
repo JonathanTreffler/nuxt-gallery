@@ -17,8 +17,8 @@
 				ref="image"
 				@click="zoom(index)"
 			>
-				<source :srcSet="images.resizedWebpSrcSet" type="image/webp">
-				<source :srcSet="images.resizedJpgSrcSet" type="image/jpg">
+				<source :srcSet="image.resizedWebpSrcSet" type="image/webp">
+				<source :srcSet="image.resizedJpgSrcSet" type="image/jpg">
 				<img :src="require('~/assets/' + image.src)" :alt="image.alt">
 			</picture>
 		</div>

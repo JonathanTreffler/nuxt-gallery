@@ -1,11 +1,13 @@
 <template>
 	<div class="gallery">
-		<div class="zoom_blur_background" ref="zoom_blur_background" @click="closeZoom" />
-		<picture @click="closeZoom">
-			<source :srcSet="zoomedImageWebpSrcSet" type="image/webp">
-			<source :srcSet="zoomedImageJpgSrcSet" type="image/jpg">
-			<img :src="zoomedImageOriginalSrc" ref="zoomed_image" class="zoomed_image" :alt="zoomedImageAlt">
-		</picture>
+		<portal>
+			<div class="zoom_blur_background" ref="zoom_blur_background" @click="closeZoom" />
+			<picture @click="closeZoom">
+				<source :srcSet="zoomedImageWebpSrcSet" type="image/webp">
+				<source :srcSet="zoomedImageJpgSrcSet" type="image/jpg">
+				<img :src="zoomedImageOriginalSrc" ref="zoomed_image" class="zoomed_image" :alt="zoomedImageAlt">
+			</picture>
+		</portal>
 		<span v-if="zoomedId" class="zoomed_image_source">{{ }}</span>
 		<div class="gallery_control_container">
 			<img class="gallery_control" alt="" src="./assets/arrow_back.svg" @click="scroll(-1)">
@@ -30,6 +32,7 @@
 </template>
 <script>
 import zoomMixin from "./mixins/zoom.js";
+import { Portal } from "@linusborg/vue-simple-portal";
 
 export default {
 	mixins: [ zoomMixin, ],
@@ -41,6 +44,9 @@ export default {
 			default: "default",
 		},
 	},
+	components: {
+		Portal,
+	},
 	data() {
 		return {
 			focusedId: 0,
@@ -50,7 +56,7 @@ export default {
 	},
 	mounted() {
 		let self = this;
-        
+
 		self.images = self.imagesConfig;
 
 		setInterval(function() {

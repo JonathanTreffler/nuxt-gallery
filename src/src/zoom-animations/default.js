@@ -12,14 +12,14 @@ export default {
 			const width = pos.width;
 
 			self.zoomedImage.style.display = "";
-            
+
 			setToOrgiginalPos(pos, width, height)
-				.then(activateBlurBackground(self.$el))
+				.then(activateBlurBackground)
 				.then(centerImagePX)
 				.then(centerImagePC)
 				.then(extendPX)
 				.then(extendPC)
-				.then(activateClosing(self.$el));
+				.then(activateClosing);
 		});
 
 		function setToOrgiginalPos(pos, width, height) {
@@ -41,6 +41,7 @@ export default {
 			return new Promise(function(resolve) {
 				self.zoomBlurBackground.style.display = "";
 				self.zoomBlurBackground.style.opacity = 0.8;
+				self.zoomBlurBackground.style.zIndex = "2001";
 
 				resolve();
 			});
@@ -105,34 +106,32 @@ export default {
 			});
 		}
 
-		function activateClosing(thisEl) {
+		function activateClosing() {
 			console.log("activateClosing");
-			const zoomBlurBackground = thisEl.querySelector(".zoom_blur_background");
 			return new Promise(function(resolve) {
-				zoomBlurBackground.classList.add("closeable");
+				self.zoomBlurBackground.classList.add("closeable");
 				resolve();
 			});
 		}
 	},
 	closeZoom(self) {
 		console.log("close");
-		const zoomBlurBackground = self.$el.querySelector(".zoom_blur_background");
-        
-		if (zoomBlurBackground.classList.contains("closeable")) {
-			zoomBlurBackground.style.opacity = 0;
+
+		if (self.zoomBlurBackground.classList.contains("closeable")) {
+			self.zoomBlurBackground.style.opacity = 0;
 
 			setTimeout(function() {
 				self.$el.classList.remove("zoom");
-				zoomBlurBackground.style.display = "none";
+				self.zoomBlurBackground.style.display = "none";
 			}, 400);
-            
+
 			console.log(self.zoomedImage.style);
 
 			self.zoomedImage.removeAttribute("style");
 			self.zoomedImage.style.display = "none";
 
-			zoomBlurBackground.classList.remove("closeable");
-            
+			self.zoomBlurBackground.classList.remove("closeable");
+
 			self.zoomedId = false;
 		}
 	},

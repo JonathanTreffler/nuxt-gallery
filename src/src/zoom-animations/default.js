@@ -14,12 +14,12 @@ export default {
 			self.zoomedImage.style.display = "";
 
 			setToOrgiginalPos(pos, width, height)
-				.then(activateBlurBackground(self.$el))
+				.then(activateBlurBackground)
 				.then(centerImagePX)
 				.then(centerImagePC)
 				.then(extendPX)
 				.then(extendPC)
-				.then(activateClosing(self.$el));
+				.then(activateClosing);
 		});
 
 		function setToOrgiginalPos(pos, width, height) {
@@ -106,7 +106,7 @@ export default {
 			});
 		}
 
-		function activateClosing(thisEl) {
+		function activateClosing() {
 			console.log("activateClosing");
 			return new Promise(function(resolve) {
 				self.zoomBlurBackground.classList.add("closeable");

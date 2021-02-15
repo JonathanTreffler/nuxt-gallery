@@ -56,7 +56,7 @@ export default {
 	},
 	mounted() {
 		let self = this;
-        
+
 		self.images = self.imagesConfig;
 
 		setInterval(function() {

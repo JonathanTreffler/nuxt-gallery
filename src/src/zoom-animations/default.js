@@ -41,6 +41,7 @@ export default {
 			return new Promise(function(resolve) {
 				self.zoomBlurBackground.style.display = "";
 				self.zoomBlurBackground.style.opacity = 0.8;
+				self.zoomBlurBackground.style.zIndex = "2001";
 
 				resolve();
 			});

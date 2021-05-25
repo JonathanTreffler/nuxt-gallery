@@ -1,0 +1,33 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/src"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  assignees:
+  - JonathanTreffler
+  ignore:
+  - dependency-name: eslint
+    versions:
+    - 7.21.0
+    - 7.23.0
+- package-ecosystem: npm
+  directory: "/demo"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  assignees:
+  - JonathanTreffler
+  ignore:
+  - dependency-name: nuxt
+    versions:
+    - ">= 2.15.a, < 2.16"
+  - dependency-name: eslint
+    versions:
+    - 7.21.0
+  - dependency-name: eslint-plugin-vue
+    versions:
+    - 7.6.0

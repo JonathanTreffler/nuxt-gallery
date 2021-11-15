@@ -38,7 +38,7 @@
     "imagemin-svgo": "^9.0.0",
     "lqip-loader": "^2.2.0",
     "responsive-loader": "^2.0.2",
-    "sharp": "^0.28.0",
+    "sharp": "^0.29.3",
     "sqip-loader": "^1.0.0",
     "webp-loader": "^0.6.0"
   }
